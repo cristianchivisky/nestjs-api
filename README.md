@@ -5,34 +5,38 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# NestJS Back-end API
 
-## Description
+Este repositorio contiene la API de back-end desarrollada como parte de un desafío. La API está construida utilizando Node.js, NestJS y TypeScript. Implementa varias mejores prácticas y principios arquitectónicos como KISS, DRY y SOLID. La API interactúa con una base de datos PostgreSQL utilizando un ORM, gestiona datos de usuarios y productos, e incluye integración con ChatGPT de OpenAI a través de LangChain.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Características
+
+- Autenticación: Implementa JWT para la autenticación de usuarios.
+- Gestión de Usuarios: Endpoints para crear, actualizar y eliminar usuarios.
+- Gestión de Productos: Endpoints para crear, actualizar y eliminar productos.
+- Listado de Productos: Endpoint para listar productos con paginación y filtros.
+- Manejo de Errores y Validación de Datos: Manejo completo de errores y validación de datos en todos los endpoints.
+- Documentación Swagger: Swagger integrado para facilitar las pruebas y documentación de la API.
+- Integración ChatGPT: Endpoint para consultar ChatGPT utilizando LangChain para casos de uso personalizados.
+
+
+## Instalación
 
 ```bash
+$ git clone https://github.com/cristianchivisky/nestjs-api.git
+
+$ cd nestjs-api
+
 $ npm install
 ```
 
-## Running the app
+## Configurar variables de entorno
+
+Crear un archivo .env en el directorio raíz y agrega las variables de entorno.
+
+
+## Ejecutar la aplicación
 
 ```bash
 # development
@@ -45,29 +49,27 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+## Uso
 
-# e2e tests
-$ npm run test:e2e
+La API se puede probar utilizando Swagger. Una vez que la aplicación esté en ejecución, accede a http://localhost:3000/api para acceder a la documentación de Swagger.
 
-# test coverage
-$ npm run test:cov
-```
 
-## Support
+## Conceptos
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Middleware en una Aplicación de Backend
+Las funciones de middleware se utilizan para manejar las solicitudes antes de que lleguen a los controladores de endpoints. Se pueden utilizar para registro, autenticación, validación, manejo de errores y más. En esta aplicación, el middleware se utiliza para la autenticación JWT.
 
-## Stay in touch
+- Inyección SQL y Prevención
+La inyección SQL es una técnica de inyección de código que explota vulnerabilidades en el software de la aplicación al insertar declaraciones SQL maliciosas en un campo de entrada. Para prevenir la inyección SQL, esta aplicación utiliza un ORM (TypeORM), que proporciona consultas parametrizadas que escapan las entradas de usuario.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Transacciones SQL
+Las transacciones SQL se utilizan para ejecutar una secuencia de consultas como una sola unidad de trabajo. Son útiles cuando se necesitan realizar múltiples operaciones de manera atómica. Por ejemplo, en una aplicación financiera, transferir dinero de una cuenta a otra utilizaría una transacción para garantizar que tanto las operaciones de débito como de crédito tengan éxito o fallo juntas.
 
-## License
+- Ejemplo de Aprovechamiento del Paralelismo con Async/Await
+Async/await permite la ejecución de operaciones asíncronas de manera no bloqueante. Al utilizar Promise.all, múltiples operaciones asíncronas pueden ejecutarse en paralelo, mejorando el rendimiento.
 
-Nest is [MIT licensed](LICENSE).
+
+## Licencia
+
+Este proyecto está bajo la Licencia [MIT licensed](LICENSE).
