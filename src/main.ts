@@ -10,9 +10,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   //Se crea un objeto DocumentBuilder para configurar la documentación de Swagger con detalles como el título, etc.
   const options = new DocumentBuilder()
-    .setTitle('Your API Title')
-    .setDescription('Your API Description')
-    .setVersion('1.0')
+    .setTitle('API de Gestión de Productos y Usuarios') // Título de la API
+    .setDescription('API REST para gestionar usuarios y productos, con autenticación JWT y consulta a ChatGPT') // Descripción de la API
+    .setVersion('1.0') // Versión de la API
     .build();
   // se genera el documento de Swagger utilizando SwaggerModule.createDocument()
   const document = SwaggerModule.createDocument(app, options);

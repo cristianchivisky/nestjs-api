@@ -1,41 +1,66 @@
 import { Injectable } from '@nestjs/common';
-import { ChatOpenAI } from '@langchain/openai'; // Importa la clase ChatOpenAI del paquete langchain/openai
+import { ChatOpenAI } from '@langchain/openai';
+import { ChatResponseDto, ChatDto } from './chat.dto';
+import { ChatHistoryManager } from './chat-history-manager';
+
+// Define una interfaz para el contenido del mensaje
+interface MessageContent {
+  text: string;
+}
 
 @Injectable()
 export class ChatService {
-  private chatGPT: ChatOpenAI; // Variable privada para almacenar la instancia de ChatOpenAI
+  private readonly chatHistory: ChatHistoryManager;
+  private readonly chat: ChatOpenAI;
 
   constructor() {
+    // Inicializa el historial de chat y la instancia del servicio ChatOpenAI
+    this.chatHistory = new ChatHistoryManager();
+
     // Obtiene la API key de OpenAI del entorno
     const apiKey = process.env.OPENAI_API_KEY;
-    
-    // Si no se encuentra la API key, se lanza un error
     if (!apiKey) {
-      throw new Error("API key not found");
+      throw new Error("API key not found"); // Lanza un error si la API key no está definida
     }
 
     // Inicializa el objeto ChatOpenAI con la API key y el modelo deseado
-    this.chatGPT = new ChatOpenAI({ 
-      apiKey: apiKey,
-      modelName: "gpt-3.5-turbo" // Modelo de OpenAI a utilizar
+    this.chat = new ChatOpenAI({
+      temperature: 1,
+      openAIApiKey: apiKey,
+      modelName: "gpt-3.5-turbo"
     });
   }
 
-  // Método para enviar un mensaje al modelo de lenguaje de OpenAI y obtener una respuesta
-  async sendMessage(message: string): Promise<string> {
+  // Método para obtener la respuesta del modelo de lenguaje AI
+  async getAiModelAnswer(data: ChatDto) {
     try {
-      // Invoca el modelo de lenguaje de OpenAI con el mensaje dado
-      const response = await this.chatGPT.invoke(message);
+      this.chatHistory.addHumanMessage(data.message); // Agrega el mensaje humano al historial de chat
 
-      // Verifica si la respuesta es de tipo MessageContent antes de intentar acceder a su propiedad text
-      if (typeof response === 'object' && 'text' in response) {
-        return response.text; // Devuelve el texto de la respuesta si existe
-      } else {
-        return ''; // Devuelve una cadena vacía si la respuesta no es válida
-      }
+      // Realiza la predicción del mensaje AI basado en el historial de chat
+      const result = await this.chat.predictMessages(this.chatHistory.chatHistory);
+
+      // Asegura que result.content sea un arreglo de objetos MessageContent
+      const aiMessages = result.content as MessageContent[];
+      // Concatena los textos de los mensajes AI en un solo mensaje
+      const aiMessage = aiMessages.map(content => content.text).join(' ');
+
+      // Agrega el mensaje AI al historial de chat
+      this.chatHistory.addAiMessage(aiMessage);
+
+      // Retorna una instancia de ChatResponseDto con el mensaje AI generado
+      return ChatResponseDto.getInstance(aiMessage);
     } catch (error) {
-      console.error("Error during ChatGPT invocation:", error); // Registra cualquier error ocurrido durante la invocación
-      throw new Error("Internal Server Error"); // Lanza un error interno del servidor en caso de fallo
+      // Manejo de errores específicos
+      if (error instanceof Error) {
+        if (error.message.includes('429')) {
+          console.error("Error: Exceeded API quota", error);
+          throw new Error("You have exceeded your API quota. Please check your plan and billing details.");
+        }
+        console.error("Error processing AI model answer:", error);
+        throw new Error("Failed to get AI model answer. Please try again later.");
+      }
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again later.");
     }
   }
 }

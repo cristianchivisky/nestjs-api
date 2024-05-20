@@ -7,7 +7,7 @@
 
 # NestJS Back-end API
 
-Este repositorio contiene la API de back-end desarrollada como parte de un desafío. La API está construida utilizando Node.js, NestJS y TypeScript. Implementa varias mejores prácticas y principios arquitectónicos como KISS, DRY y SOLID. La API interactúa con una base de datos PostgreSQL utilizando un ORM, gestiona datos de usuarios y productos, e incluye integración con ChatGPT de OpenAI a través de LangChain.
+Este repositorio contiene la API back-end desarrollada como parte de un desafío. La API está construida utilizando Node.js, NestJS y TypeScript. Interactúa con una base de datos PostgreSQL utilizando un ORM, gestiona datos de usuarios y productos, e incluye integración con ChatGPT de OpenAI a través de LangChain.
 
 
 ## Características
@@ -18,7 +18,7 @@ Este repositorio contiene la API de back-end desarrollada como parte de un desaf
 - Listado de Productos: Endpoint para listar productos con paginación y filtros.
 - Manejo de Errores y Validación de Datos: Manejo completo de errores y validación de datos en todos los endpoints.
 - Documentación Swagger: Swagger integrado para facilitar las pruebas y documentación de la API.
-- Integración ChatGPT: Endpoint para consultar ChatGPT utilizando LangChain para casos de uso personalizados.
+- Integración ChatGPT: Endpoint para consultar a ChatGPT utilizando LangChain para casos de uso personalizados.
 
 
 ## Instalación
@@ -33,7 +33,7 @@ $ npm install
 
 ## Configurar variables de entorno
 
-Crear un archivo .env en el directorio raíz y agrega las variables de entorno.
+Crea un archivo .env en el directorio raíz y agrega las variables de entorno.
 
 
 ## Ejecutar la aplicación
@@ -66,10 +66,9 @@ La inyección SQL es una técnica de inyección de código que explota vulnerabi
 - Transacciones SQL
 Las transacciones SQL se utilizan para ejecutar una secuencia de consultas como una sola unidad de trabajo. Son útiles cuando se necesitan realizar múltiples operaciones de manera atómica. Por ejemplo, en una aplicación financiera, transferir dinero de una cuenta a otra utilizaría una transacción para garantizar que tanto las operaciones de débito como de crédito tengan éxito o fallo juntas.
 
-- Ejemplo de Aprovechamiento del Paralelismo con Async/Await
-Async/await permite la ejecución de operaciones asíncronas de manera no bloqueante. Al utilizar Promise.all, múltiples operaciones asíncronas pueden ejecutarse en paralelo, mejorando el rendimiento.
+- Ejemplo de Aprovechamiento del Paralelismo con Async/await, permite la ejecución de operaciones asíncronas de manera no bloqueante. Al utilizar Promise.all, múltiples operaciones asíncronas pueden ejecutarse en paralelo, mejorando el rendimiento.
 
 
 ## Licencia
 
-Este proyecto está bajo la Licencia [MIT licensed](LICENSE).
+Este proyecto está bajo la licencia: [MIT licensed](LICENSE).

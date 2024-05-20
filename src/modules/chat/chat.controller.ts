@@ -1,17 +1,22 @@
 // Importa los módulos y decoradores necesarios de NestJS
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
 import { ChatService } from './chat.service';
+import { ChatDto } from './chat.dto';
 
 // Marca la clase como un controlador de NestJS y define el prefijo de ruta 'chatgpt' para todos los endpoints de este controlador
 @Controller('chatgpt')
 export class ChatController {
   // Inyecta el servicio ChatService en el controlador
-  constructor(private readonly chatService: ChatService) {}
+  constructor(private readonly service: ChatService) {}
 
   // Define un endpoint POST en la ruta 'query'
   @Post('query')
-  async query(@Body('prompt') prompt: string): Promise<string> {
-    // Llama al método sendMessage del servicio ChatService con el prompt recibido en el cuerpo de la solicitud
-    return await this.chatService.sendMessage(prompt);
+  // Maneja las solicitudes POST en la ruta 'query' para obtener la completación del chat
+  getChatCompletionMessage (
+    // Usa el decorador @Body para extraer y validar los datos de la solicitud, usando un ValidationPipe para transformar los datos de entrada
+    @Body(new ValidationPipe({ transform: true })) data: ChatDto,
+   ) {
+    // Llama al método getAiModelAnswer del servicio ChatService y devuelve la respuesta
+    return this.service.getAiModelAnswer(data);
   }
 }
