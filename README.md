@@ -55,20 +55,6 @@ $ npm run start:prod
 La API se puede probar utilizando Swagger. Una vez que la aplicación esté en ejecución, accede a http://localhost:3000/api para acceder a la documentación de Swagger.
 
 
-## Conceptos
-
-- Middleware en una Aplicación de Backend
-Las funciones de middleware se utilizan para manejar las solicitudes antes de que lleguen a los controladores de endpoints. Se pueden utilizar para registro, autenticación, validación, manejo de errores y más. En esta aplicación, el middleware se utiliza para la autenticación JWT.
-
-- Inyección SQL y Prevención
-La inyección SQL es una técnica de inyección de código que explota vulnerabilidades en el software de la aplicación al insertar declaraciones SQL maliciosas en un campo de entrada. Para prevenir la inyección SQL, esta aplicación utiliza un ORM (TypeORM), que proporciona consultas parametrizadas que escapan las entradas de usuario.
-
-- Transacciones SQL
-Las transacciones SQL se utilizan para ejecutar una secuencia de consultas como una sola unidad de trabajo. Son útiles cuando se necesitan realizar múltiples operaciones de manera atómica. Por ejemplo, en una aplicación financiera, transferir dinero de una cuenta a otra utilizaría una transacción para garantizar que tanto las operaciones de débito como de crédito tengan éxito o fallo juntas.
-
-- Ejemplo de Aprovechamiento del Paralelismo con Async/await, permite la ejecución de operaciones asíncronas de manera no bloqueante. Al utilizar Promise.all, múltiples operaciones asíncronas pueden ejecutarse en paralelo, mejorando el rendimiento.
-
-
 ## Licencia
 
 Este proyecto está bajo la licencia: [MIT licensed](LICENSE).
